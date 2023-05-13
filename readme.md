@@ -36,7 +36,7 @@ ResqAI is an innovative call management system that uses artificial intelligence
 
 ## 🤔 The problem faced by most of us today
 
-In emergency situations, every second counts. However, when the emergency call center is overwhelmed or understaffed, callers may have to wait for a long time before their call is answered. This delay can be critical and could result in a loss of life or property. Our hackathon project, ResqAI, solves this problem by using artificial intelligence to grade the importance of each call and transfer the relevant information to the emergency operator. This helps emergency services to respond more efficiently and effectively, potentially saving lives and reducing property damage.
+In emergency situations, every second counts. However, when the emergency call center is overwhelmed or understaffed, callers may have to wait for a long time before their call is answered. This delay can be critical and could result in a loss of life or property. Our hackathon project, ResqAI, solves this problem by using artificial intelligence to grade the importance of each call and transfer the relevant information to the emergency handler. This helps emergency services to respond more efficiently and effectively, potentially saving lives and reducing property damage.
 
 <br>
 
@@ -49,7 +49,7 @@ If the call is urgent, ResqAI will immediately transfer the relevant information
 <br>
 
 ## ▶️ Installation and Usage
-To use ResqAI, simply integrate the system with your emergency services call center. The system can be easily customized to meet the specific needs of your organization. ResqAI is compatible with most modern phone systems and can be configured to work with any existing 911 call management software.
+To use ResqAI, simply integrate the system with your emergency services call center. The system can be easily customized to meet the specific needs of your organization. ResqAI is compatible with most modern phone systems and can be configured to work with any existing emergency call management software.
 
 <br>
 
