@@ -52,6 +52,11 @@ function App() {
       });
   }
 
+  function openInNewTab() {
+    var win = window.open('https://metamask.io', '_blank');
+    win.focus();
+  }
+
   useEffect(() => {
     connectWallet();
   }, [connectWallet]);
@@ -72,6 +77,13 @@ function App() {
             <div className="cwBottomLeft">
               <div className="cwBottomLeftInner">
                 <div className="cwBottomLeftHead">Operator AI</div>
+                <div className="cwBottomLeftBody">
+                OperatorAI system lets callers talk to AI if there are no available 911 operators, grading them on the scale of how important their call is based on the keywords and recording their location. While the responses are being gathered, it will prioritize their call and hand over the call transcript to the 911 operator.
+                </div>
+                <div className="cwBottomLeftBtn">
+                  <button onClick={connectWallet} className="cwbtn">Connect Wallet</button>
+                  <p className="cwLink" onClick={openInNewTab}>Get Metamask Wallet</p>
+                </div>
               </div>
             </div>
             <div className="cwBottomRight">
