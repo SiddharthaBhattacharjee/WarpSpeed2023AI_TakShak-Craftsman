@@ -5,13 +5,15 @@ import { Web3Provider } from "@ethersproject/providers";
 import { getAddress } from "ethers";
 import PhoneNum from "./res/PhoneNum.png";
 import Ilustration from "./res/Ilustration.png"
+import OperationsPage from "./components/operations";
+import { ChakraProvider } from "@chakra-ui/react";
 
 
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState(""); //fetched from metamask
   const [correctNetwork, setCorrectNetwork] = useState(false); //fetched from metamas
-
+  const [operations, setOperations] = useState([]); //fetched from smart contract
   //Ethereum Wallet Connector
   const connectWallet = async () => {
     try {
@@ -22,7 +24,6 @@ function App() {
       }
 
       let chainId = await ethereum.request({ method: "eth_chainId" });
-      console.log(chainId);
       const EthereumChainId = "0xaa36a7";
       if (chainId !== EthereumChainId) {
         alert("Please Connect to Ethereum Testnet");
@@ -61,6 +62,47 @@ function App() {
     connectWallet();
   }, [connectWallet]);
 
+  useEffect(() => {
+    const data = [
+      {
+        id: 241526173814,
+        name: "John Doe",
+        location: "Brgy. 1, San Jose, Batangas",
+        priority: 2,
+        attention: "fire",
+        summary: "Fire in Brgy. 1, San Jose, Batangas",
+        phone: "09123456789",
+        transcript: "I need help, I am in a car crash, I am at 123 Main Street, and I am bleeding.",
+        status: 2,
+        time: "12:00 PM",
+      },
+      {
+        id: 241526173813,
+        name: "John Doe",
+        location: "Brgy. 1, San Jose, Batangas",
+        priority: 1,
+        attention: "medical|fire",
+        summary: "Fire in Brgy. 1, San Jose, Batangas",
+        phone: "09123456789",
+        transcript: "Fire in Brgy. 1, San Jose, Batangas",
+        status: 2,
+        time: "12:00 PM",
+      },
+      {
+        id: 241526173817,
+        name: "John Doe",
+        location: "Brgy. 1, San Jose, Batangas",
+        priority: 0,
+        attention: "police",
+        summary: "Fire in Brgy. 1, San Jose, Batangas",
+        phone: "09123456789",
+        transcript: "Fire in Brgy. 1, San Jose, Batangas",
+        status: 1,
+        time: "1:00 PM",
+      },
+    ];
+    setOperations(data);
+  }, [operations])
   return (
     <div className="App">
       {currentAccount === "" ? (
@@ -70,7 +112,7 @@ function App() {
               src={PhoneNum}
               alt="+12707704034"
               className="NumBtn"
-              onClick={copyPhoneNumberToClipboard} 
+              onClick={copyPhoneNumberToClipboard}
             ></img>
           </div>
           <div className="cwBottom">
@@ -78,7 +120,7 @@ function App() {
               <div className="cwBottomLeftInner">
                 <div className="cwBottomLeftHead">Operator AI</div>
                 <div className="cwBottomLeftBody">
-                OperatorAI system lets callers talk to AI if there are no available 911 operators, grading them on the scale of how important their call is based on the keywords and recording their location. While the responses are being gathered, it will prioritize their call and hand over the call transcript to the 911 operator.
+                  OperatorAI system lets callers talk to AI if there are no available 911 operators, grading them on the scale of how important their call is based on the keywords and recording their location. While the responses are being gathered, it will prioritize their call and hand over the call transcript to the 911 operator.
                 </div>
                 <div className="cwBottomLeftBtn">
                   <button onClick={connectWallet} className="cwbtn">Connect Wallet</button>
@@ -111,7 +153,11 @@ function App() {
           <div>-----------------------------------------</div>
         </div>
       ) : (
-        <div className="Main">Main Page</div>
+        <div className="Main">
+          <ChakraProvider>
+            <OperationsPage operationsData={operations} />
+          </ChakraProvider>
+        </div>
       )}
     </div>
   );
