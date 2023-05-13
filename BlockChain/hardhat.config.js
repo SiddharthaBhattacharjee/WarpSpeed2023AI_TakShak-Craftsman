@@ -24,10 +24,10 @@ module.exports = {
     },
   },
   networks: {
-    shardeum: {
-      url: process.env.ALCHEMY_SHARDIUM_URL,
+    Ethereum: {
+      url: process.env.ETHEREUM_SEPOLIA_URL,
       accounts: [process.env.ACCOUNT_PRIVATE_KEY],
-      chainId: 8081,
+      chainId: 11155111,
     }
   }
 };
