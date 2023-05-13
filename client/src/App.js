@@ -22,10 +22,10 @@ function App() {
       }
 
       let chainId = await ethereum.request({ method: "eth_chainId" });
-
-      const shardeumChainId = "0x1f91";
-      if (chainId !== shardeumChainId) {
-        alert("Please Connect to shardeum Testnet");
+      console.log(chainId);
+      const EthereumChainId = "0xaa36a7";
+      if (chainId !== EthereumChainId) {
+        alert("Please Connect to Ethereum Testnet");
         return;
       } else {
         setCorrectNetwork(true);
@@ -106,7 +106,7 @@ function App() {
           }}
         >
           <div>-----------------------------------------</div>
-          <div>Please connect to the shardeum Testnet</div>
+          <div>Please connect to the Ethereum Testnet</div>
           <div>and reload the page</div>
           <div>-----------------------------------------</div>
         </div>
