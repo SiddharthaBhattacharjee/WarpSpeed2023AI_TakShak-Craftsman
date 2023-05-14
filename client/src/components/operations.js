@@ -16,9 +16,10 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import map from "../res/map.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoClose } from 'react-icons/io5'
 import { BsCheck, BsTelephone } from "react-icons/bs";
+import { Appcontext } from './context';
 const TableBtn = (props) => {
     var type = props.type;
     return (
@@ -27,9 +28,10 @@ const TableBtn = (props) => {
 };
 const TableBody = (props) => {
     const [status, setStatus] = useState(props.status || 0);
-    const updateStatusFn_ = props.updateStatusFn2;
+    // const updateStatusFn_ = props.updateStatusFn2;
     var priority = props.priority || null;
     var onclickevent = props.onClick || "";
+    const {changeID, setChangeID, changeStatus, setChangeStatus} = useContext(Appcontext);
     if (onclickevent === "") {
         onclickevent = function () { return; };
     }
@@ -38,16 +40,18 @@ const TableBody = (props) => {
             return;
         }
         setStatus(st);
-        updateStatusFn_(id,st);
+        setChangeID(id);
+        setChangeStatus(st);
+        // updateStatusFn_(id,st);
     };
     return (
         <>
             <Tr className="hover:bg-[#f1f1f1] duration-100 cursor-pointer" onClick={onclickevent}>
                 <Td>
                     <div
-                        className={`uppercase ${priority === 2 ? "bg-[#FE0A0A]" : priority === 1 ? "bg-[#FF8A00]" : priority === 0 ? "bg-green-700" : ""} text-center text-white font-semibold w-fit px-2 py-2 rounded-full`}
+                        className={`uppercase ${priority === "high" ? "bg-[#FE0A0A]" : priority === "medium" ? "bg-[#FF8A00]" : priority === "low" ? "bg-green-700" : ""} text-center text-white font-semibold w-fit px-2 py-2 rounded-full`}
                     >
-                        {props.priority === 2 ? "high" : props.priority === 1 ? "medium" : "low"}
+                        {props.priority}
                     </div>
                 </Td>
                 <Td>
@@ -72,7 +76,7 @@ const TableBody = (props) => {
                         <MenuList>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props.id,0);
+                                    onUpdateStatus(props._key,0);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -82,7 +86,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props.id,0);
+                                    onUpdateStatus(props._key,1);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -96,7 +100,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props.id,2);
+                                    onUpdateStatus(props._key,2);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -150,7 +154,7 @@ const OperationsPage = (props) => {
         setFilteredData(
             data.filter((item) => {
                 if (section === "ongoing") {
-                    return item.status === "0n";
+                    return item.status === 0;
                 } else if (section === "unresolved") {
                     return item.status === 1;
                 } else if (section === "resolved") {
@@ -209,7 +213,7 @@ const OperationsPage = (props) => {
                                     <Tbody>
                                         {filteredData.map((item) => (
                                             <TableBody
-                                                key={item.id}
+                                                _key={item.id}
                                                 priority={item.priority}
                                                 callerName={item.name}
                                                 callerNumber={item.phone}

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import { ethers } from "ethers";
 import { Web3Provider } from "@ethersproject/providers";
 import { getAddress } from "ethers";
@@ -9,10 +9,11 @@ import OperationsPage from "./components/operations";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ContractAddress } from './config.js';
 import ContractAbi from './utils/Contract.json';
-
+import { Appcontext } from "./components/context";
 
 
 function App() {
+  const { changeID, setChangeID, changeStatus, setChangeStatus } = useContext(Appcontext);
   const [currentAccount, setCurrentAccount] = useState(""); //fetched from metamask
   const [correctNetwork, setCorrectNetwork] = useState(false); //fetched from metamas
   const [operations, setOperations] = useState([]); //fetched from smart contract
@@ -83,14 +84,14 @@ function App() {
           let td = (operationObject.data).replace(/'/g, '"')
           let temp = JSON.parse(td);
           return {
-            id : operationObject.id,
-            name : temp.name,
-            location : temp.location,
-            priority : temp.priority,
-            attention : temp.emergency_type,
-            callerNumber : temp.caller_number,
-            time : temp.time,
-            status : operationObject.status
+            id: operationObject.id,
+            name: temp.name,
+            location: temp.location,
+            priority: temp.priority,
+            attention: temp.emergency_type,
+            callerNumber: temp.caller_number,
+            time: temp.time,
+            status: operationObject.status
           };
         });
 
@@ -102,7 +103,7 @@ function App() {
         // "callerNumber": JSON.parse(formattedOperations[1]).caller_number,
         // "time": JSON.parse(formattedOperations[1]).time,
         // "status": formattedOperations[2]};
-        
+
         setOperations(res);
       }
       else {
@@ -112,41 +113,44 @@ function App() {
       console.log(error);
     }
   }
+  useEffect(() => {
+    if (changeID !== false) {
+      const updateStatus = async () => {
+        console.log(changeID, changeStatus);
+        try {
+          const { ethereum } = window;
+          if (ethereum) {
+            //setting up provider
+            const provider = new Web3Provider(ethereum);
+            const signer = provider.getSigner();
+            const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
+            //calling the smart contract
+            MyContract.setStatus(changeID, changeStatus).then(
+              response => {
+                console.log('Response : ', response);
+                getEmergencies();
+                // setChangeStatus(false);
+                // setChangeID(false);
+              }
+            ).catch(err => {
+              console.log(err);
+            });
 
-  const updateStatus = async (id, st) => {
-    try {
-      const { ethereum } = window;
-      if (ethereum) {
-        //setting up provider
-        const provider = new Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
-        //calling the smart contract
-        MyContract.setStatus(id, st).then(
-          response => {
-            console.log('Response : ', response);
-            getEmergencies();
           }
-        ).catch(err => {
-          console.log(err);
-        });
-
+          else {
+            console.log('Ethereum object not found');
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
-      else {
-        console.log('Ethereum object not found');
-      }
-    } catch (error) {
-      console.log(error);
+      updateStatus();
     }
-  }
+  }, [changeID, changeStatus])
 
   useEffect(() => {
-    if(currentAccount === "") {
-      connectWallet();
-    }
-    if (currentAccount !== "") {
-      getEmergencies();
-    }
+    connectWallet();
+    getEmergencies();
   }, [connectWallet, getEmergencies, currentAccount]);
 
 
@@ -202,7 +206,7 @@ function App() {
       ) : (
         <div className="Main">
           <ChakraProvider>
-            <OperationsPage operationsData={operations} updatebtn={updateStatus} />
+            <OperationsPage operationsData={operations} />
           </ChakraProvider>
         </div>
       )}
