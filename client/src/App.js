@@ -91,7 +91,8 @@ function App() {
             attention: temp.emergency_type,
             callerNumber: temp.caller_number,
             time: temp.time,
-            status: operationObject.status
+            status: operationObject.status,
+            transcript: temp.transcript || "404"
           };
         });
 
