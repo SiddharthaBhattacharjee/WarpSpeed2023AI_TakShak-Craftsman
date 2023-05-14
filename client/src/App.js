@@ -16,6 +16,7 @@ function App() {
   const [currentAccount, setCurrentAccount] = useState(""); //fetched from metamask
   const [correctNetwork, setCorrectNetwork] = useState(false); //fetched from metamas
   const [operations, setOperations] = useState([]); //fetched from smart contract
+  const [validatedOperations, setValidatedOperations] = useState([]); //fetched from smart contract
   //Ethereum Wallet Connector
   const connectWallet = async () => {
     try {
@@ -70,7 +71,39 @@ function App() {
         const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
         //calling the smart contract
         let Em_Data = await MyContract.getOperations();
-        setOperations(Em_Data);
+        const formattedOperations = Em_Data.map((operationData) => {
+          return {
+            id: parseInt(operationData.id),
+            data: operationData.data,
+            status: parseInt(operationData.status),
+          };
+        });
+
+        const res = formattedOperations.map((operationObject) => {
+          let td = (operationObject.data).replace(/'/g, '"')
+          let temp = JSON.parse(td);
+          return {
+            id : operationObject.id,
+            name : temp.name,
+            location : temp.location,
+            priority : temp.priority,
+            attention : temp.emergency_type,
+            callerNumber : temp.caller_number,
+            time : temp.time,
+            status : operationObject.status
+          };
+        });
+
+        // let obj = {"id": formattedOperations[0], 
+        // "name": JSON.parse(formattedOperations[1]).name,
+        // "location": JSON.parse(formattedOperations[1]).location,
+        // "priority": JSON.parse(formattedOperations[1]).priority,
+        // "emergency": JSON.parse(formattedOperations[1]).emergency_type,
+        // "callerNumber": JSON.parse(formattedOperations[1]).caller_number,
+        // "time": JSON.parse(formattedOperations[1]).time,
+        // "status": formattedOperations[2]};
+        
+        setOperations(res);
       }
       else {
         console.log('Ethereum object not found');
@@ -80,7 +113,7 @@ function App() {
     }
   }
 
-  const updateStatus = async (id,st) => {
+  const updateStatus = async (id, st) => {
     try {
       const { ethereum } = window;
       if (ethereum) {
@@ -89,7 +122,7 @@ function App() {
         const signer = provider.getSigner();
         const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
         //calling the smart contract
-        MyContract.setStatus(id,st).then(
+        MyContract.setStatus(id, st).then(
           response => {
             console.log('Response : ', response);
             getEmergencies();
@@ -108,10 +141,14 @@ function App() {
   }
 
   useEffect(() => {
-    connectWallet();
-    getEmergencies();
-    console.log(operations);
-  }, [connectWallet, getEmergencies]);
+    if(currentAccount === "") {
+      connectWallet();
+    }
+    if (currentAccount !== "") {
+      getEmergencies();
+    }
+  }, [connectWallet, getEmergencies, currentAccount]);
+
 
   return (
     <div className="App">

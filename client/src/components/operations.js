@@ -150,7 +150,7 @@ const OperationsPage = (props) => {
         setFilteredData(
             data.filter((item) => {
                 if (section === "ongoing") {
-                    return item.status === 0;
+                    return item.status === "0n";
                 } else if (section === "unresolved") {
                     return item.status === 1;
                 } else if (section === "resolved") {
@@ -213,7 +213,7 @@ const OperationsPage = (props) => {
                                                 priority={item.priority}
                                                 callerName={item.name}
                                                 callerNumber={item.phone}
-                                                emergency={item.attention}
+                                                emergency={(item.attention).join(' ')}
                                                 location={item.location}
                                                 time={item.time}
                                                 status={item.status}
