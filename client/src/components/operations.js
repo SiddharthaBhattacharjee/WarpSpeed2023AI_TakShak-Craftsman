@@ -31,11 +31,11 @@ const TableBody = (props) => {
     // const updateStatusFn_ = props.updateStatusFn2;
     var priority = props.priority || null;
     var onclickevent = props.onClick || "";
-    const {changeID, setChangeID, changeStatus, setChangeStatus} = useContext(Appcontext);
+    const { changeID, setChangeID, changeStatus, setChangeStatus } = useContext(Appcontext);
     if (onclickevent === "") {
         onclickevent = function () { return; };
     }
-    const onUpdateStatus = (id,st) => {
+    const onUpdateStatus = (id, st) => {
         if (!window.confirm("Are you sure want to update the status?")) {
             return;
         }
@@ -76,7 +76,7 @@ const TableBody = (props) => {
                         <MenuList>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props._key,0);
+                                    onUpdateStatus(props._key, 0);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -86,7 +86,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props._key,1);
+                                    onUpdateStatus(props._key, 1);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -100,7 +100,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    onUpdateStatus(props._key,2);
+                                    onUpdateStatus(props._key, 2);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -123,6 +123,7 @@ const OperationsPage = (props) => {
     const [section, setSection] = useState("ongoing");
     const { isOpen, onOpen, onToggle } = useDisclosure();
     const [modalContentLoaded, setModalContentLoaded] = useState(false);
+    const [mapLocation, setMapLocation] = useState(false);
     const data = props.operationsData;
     const [filteredData, setFilteredData] = useState([]);
     const [ongoingCount, setOngoingCount] = useState(0);
@@ -171,6 +172,7 @@ const OperationsPage = (props) => {
             return item.id === id;
         });
         setModalContentLoaded(content[0].transcript);
+        setMapLocation(content[0].location);
     }
     return (
         <div>
@@ -238,8 +240,10 @@ const OperationsPage = (props) => {
                                     </div>
                                     {modalContentLoaded ? <p className="mt-2">{modalContentLoaded}</p> : <div className="flex justify-center items-center my-12"><Spinner /></div>}
                                 </div>
-                                {modalContentLoaded ? <div className="my-4">
-                                    <img src={map} alt="" className="h-auto w-full" />
+                                {modalContentLoaded ? <div className="my-4 w-full">
+                                    {/* <img src={map} alt="" className="h-auto w-full" /> */}
+                                    {/* .gmap_canvas {overflow:hidden;background:none!important;height:510px;width:770px;} */}
+                                    <div className='w-full' style={{width: "100% !important"}}><div style={{width: "100% !important"}} className="overflow-hidden  bg-none h-auto w-full"><iframe className='w-full h-[450px]' id="gmap_canvas" src={`https://maps.google.com/maps?q=${mapLocation}&t=&z=10&ie=UTF8&iwloc=&output=embed`} frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://2yu.co">2yu</a><br/><a href="https://embedgooglemap.2yu.co">html embed google map</a></div></div>
                                 </div> : <></>}
                             </div>
                         </Collapse>

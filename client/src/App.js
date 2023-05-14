@@ -91,7 +91,8 @@ function App() {
             attention: temp.emergency_type,
             callerNumber: temp.caller_number,
             time: temp.time,
-            status: operationObject.status
+            status: operationObject.status,
+            transcript: temp.transcript || "404"
           };
         });
         // let obj = {"id": formattedOperations[0], 
@@ -102,8 +103,8 @@ function App() {
         // "callerNumber": JSON.parse(formattedOperations[1]).caller_number,
         // "time": JSON.parse(formattedOperations[1]).time,
         // "status": formattedOperations[2]};
-
         setOperations(res);
+        console.log(operations);
       }
       else {
         console.log('Ethereum object not found');
