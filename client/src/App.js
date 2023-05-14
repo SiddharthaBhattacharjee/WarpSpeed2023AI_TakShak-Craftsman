@@ -96,7 +96,6 @@ function App() {
             transcript: temp.transcription || "404"
           };
         });
-
         // let obj = {"id": formattedOperations[0], 
         // "name": JSON.parse(formattedOperations[1]).name,
         // "location": JSON.parse(formattedOperations[1]).location,
