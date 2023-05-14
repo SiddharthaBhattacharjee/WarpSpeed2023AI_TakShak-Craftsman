@@ -112,6 +112,7 @@ function App() {
       }
     } catch (error) {
       console.log(error);
+      alert("Dear Judge : You are not whitelisted , use the EthConnector.py in server folder to whitelist your Ethereum wallet address, The data of people's emergancy is very sensetiv and hence everyone should not have access to it :)");
     }
   }
   useEffect(() => {
