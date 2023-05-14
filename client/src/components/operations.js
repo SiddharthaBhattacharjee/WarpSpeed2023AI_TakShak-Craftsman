@@ -65,7 +65,7 @@ const TableBody = (props) => {
                         </div>
                     </div>
                 </Td>
-                <Td className="uppercase">{(props.emergency).replace(/\|/g, " & ")}</Td>
+                <Td className="uppercase">{props.emergency}</Td>
                 <Td className="uppercase">{props.time}</Td>
                 <Td>{props.location}</Td>
                 <Td>
@@ -219,7 +219,7 @@ const OperationsPage = (props) => {
                                                 priority={item.priority}
                                                 callerName={item.name}
                                                 callerNumber={item.phone}
-                                                emergency={(item.attention).join(' ')}
+                                                emergency={item.attention}
                                                 location={item.location}
                                                 time={item.time}
                                                 status={item.status}

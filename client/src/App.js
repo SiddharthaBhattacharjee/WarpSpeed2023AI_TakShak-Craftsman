@@ -82,17 +82,18 @@ function App() {
 
         const res = formattedOperations.map((operationObject) => {
           let td = (operationObject.data).replace(/'/g, '"')
+          console.log(td);
           let temp = JSON.parse(td);
           return {
             id: operationObject.id,
             name: temp.name,
             location: temp.location,
             priority: temp.priority,
-            attention: temp.emergency_type,
+            attention: temp.attention,
             callerNumber: temp.caller_number,
             time: temp.time,
             status: operationObject.status,
-            transcript: temp.transcript || "404"
+            transcript: temp.transcription || "404"
           };
         });
 
