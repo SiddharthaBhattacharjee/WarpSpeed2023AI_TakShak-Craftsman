@@ -27,11 +27,19 @@ const TableBtn = (props) => {
 };
 const TableBody = (props) => {
     const [status, setStatus] = useState(props.status || 0);
-    var priority = props.priority || 0;
+    const updateStatusFn_ = props.updateStatusFn2;
+    var priority = props.priority || null;
     var onclickevent = props.onClick || "";
     if (onclickevent === "") {
         onclickevent = function () { return; };
     }
+    const onUpdateStatus = (id,st) => {
+        if (!window.confirm("Are you sure want to update the status?")) {
+            return;
+        }
+        setStatus(st);
+        updateStatusFn_(id,st);
+    };
     return (
         <>
             <Tr className="hover:bg-[#f1f1f1] duration-100 cursor-pointer" onClick={onclickevent}>
@@ -64,10 +72,7 @@ const TableBody = (props) => {
                         <MenuList>
                             <MenuItem
                                 onClick={() => {
-                                    if (!window.confirm("Are you sure want to update the status?")) {
-                                        return;
-                                    }
-                                    setStatus(0);
+                                    onUpdateStatus(props.id,0);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -77,10 +82,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    if (!window.confirm("Are you sure want to update the status?")) {
-                                        return;
-                                    }
-                                    setStatus(1);
+                                    onUpdateStatus(props.id,0);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -94,10 +96,7 @@ const TableBody = (props) => {
                             </MenuItem>
                             <MenuItem
                                 onClick={() => {
-                                    if (!window.confirm("Has the emergency been solved?")) {
-                                        return;
-                                    }
-                                    setStatus(2);
+                                    onUpdateStatus(props.id,2);
                                 }}
                             >
                                 <div className="flex gap-2 items-center justify-between w-full px-2">
@@ -125,6 +124,7 @@ const OperationsPage = (props) => {
     const [ongoingCount, setOngoingCount] = useState(0);
     const [unresolvedCount, setUnresolvedCount] = useState(0);
     const [resolvedCount, setResolvedCount] = useState(0);
+    const updateStatusFn = props.updatebtn;
 
     useEffect(() => {
         let ongoing = 0;
@@ -217,6 +217,7 @@ const OperationsPage = (props) => {
                                                 location={item.location}
                                                 time={item.time}
                                                 status={item.status}
+                                                updateStatusFn2={updateStatusFn}
                                                 onClick={() => { onOpen(); ContentLoadwID(item.id); }}
                                             />
                                         ))}
