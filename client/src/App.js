@@ -7,6 +7,8 @@ import PhoneNum from "./res/PhoneNum.png";
 import Ilustration from "./res/Ilustration.png"
 import OperationsPage from "./components/operations";
 import { ChakraProvider } from "@chakra-ui/react";
+import { ContractAddress } from './config.js';
+import ContractAbi from './utils/Contract.json';
 
 
 
@@ -58,51 +60,59 @@ function App() {
     win.focus();
   }
 
-  useEffect(() => {
-    connectWallet();
-  }, [connectWallet]);
+  const getEmergencies = async () => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        //setting up provider
+        const provider = new Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
+        //calling the smart contract
+        let Em_Data = await MyContract.getOperations();
+        setOperations(Em_Data);
+      }
+      else {
+        console.log('Ethereum object not found');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const updateStatus = async (id,st) => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        //setting up provider
+        const provider = new Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const MyContract = new ethers.Contract(ContractAddress, ContractAbi.abi, signer);
+        //calling the smart contract
+        MyContract.setStatus(id,st).then(
+          response => {
+            console.log('Response : ', response);
+            getEmergencies();
+          }
+        ).catch(err => {
+          console.log(err);
+        });
+
+      }
+      else {
+        console.log('Ethereum object not found');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    const data = [
-      {
-        id: 241526173814,
-        name: "John Doe",
-        location: "Brgy. 1, San Jose, Batangas",
-        priority: 2,
-        attention: "fire",
-        summary: "Fire in Brgy. 1, San Jose, Batangas",
-        phone: "09123456789",
-        transcript: "I need help, I am in a car crash, I am at 123 Main Street, and I am bleeding.",
-        status: 2,
-        time: "12:00 PM",
-      },
-      {
-        id: 241526173813,
-        name: "John Doe",
-        location: "Brgy. 1, San Jose, Batangas",
-        priority: 1,
-        attention: "medical|fire",
-        summary: "Fire in Brgy. 1, San Jose, Batangas",
-        phone: "09123456789",
-        transcript: "Fire in Brgy. 1, San Jose, Batangas",
-        status: 2,
-        time: "12:00 PM",
-      },
-      {
-        id: 241526173817,
-        name: "John Doe",
-        location: "Brgy. 1, San Jose, Batangas",
-        priority: 0,
-        attention: "police",
-        summary: "Fire in Brgy. 1, San Jose, Batangas",
-        phone: "09123456789",
-        transcript: "Fire in Brgy. 1, San Jose, Batangas",
-        status: 1,
-        time: "1:00 PM",
-      },
-    ];
-    setOperations(data);
-  }, [operations])
+    connectWallet();
+    getEmergencies();
+    console.log(operations);
+  }, [connectWallet, getEmergencies]);
+
   return (
     <div className="App">
       {currentAccount === "" ? (
@@ -155,7 +165,7 @@ function App() {
       ) : (
         <div className="Main">
           <ChakraProvider>
-            <OperationsPage operationsData={operations} />
+            <OperationsPage operationsData={operations} updatebtn={updateStatus} />
           </ChakraProvider>
         </div>
       )}
