@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://temp-a75ec5.spheron.app">
+  <a href="https://resqai.webxspark.com">
     <img alt = "ResqAI Logo" src = "./res/favicon-png.png">
   </a>
 </p>
@@ -8,7 +8,7 @@
   <a href="https://github.com/SiddharthaBhattacharjee/WarpSpeed2023AI_TakShak-Craftsman-/blob/master/LICENSE">
   <img src="https://img.shields.io/badge/license-MPL 2.0-blue.svg">
   </a>
-  <a href="https://temp-a75ec5.spheron.app">
+  <a href="https://resqai.webxspark.com">
     <img alt="Website" src="https://img.shields.io/badge/-website-blue">
   </a>
   <a href="http://makeapullrequest.com">
@@ -20,7 +20,7 @@ ResqAI is an innovative call management system that uses artificial intelligence
 
 <br>
 
-<a href="https://temp-a75ec5.spheron.app">Demo Website</a>
+<a href="https://resqai.webxspark.com">Demo Website</a>
 
 <br>
 
