@@ -104,8 +104,8 @@ function App() {
         // "callerNumber": JSON.parse(formattedOperations[1]).caller_number,
         // "time": JSON.parse(formattedOperations[1]).time,
         // "status": formattedOperations[2]};
-
         setOperations(res);
+        console.log(operations);
       }
       else {
         console.log('Ethereum object not found');
