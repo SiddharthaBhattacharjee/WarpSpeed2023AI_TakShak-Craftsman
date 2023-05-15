@@ -70,7 +70,7 @@ If you have any questions or feedback about the ResqAI system, please don't hesi
 
 <a href="https://linktr.ee/prayasu"> Prayasu Satapathy </a> <br>
 <a href="https://linktr.ee/SiddharthaBhattacharjee"> Siddhartha Bhattacharjee </a> <br>
-<a href="linktr.ee/AlanChristofer"> Alan Christofer </a> <br>
+<a href="https://linktr.ee/AlanChristofer"> Alan Christofer </a> <br>
 <a href="https://linktr.ee/annamalaiprabu"> Annamalai Prabu </a> <br>
 
 
